@@ -83,6 +83,8 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
+vim.o.exrc = true -- Enable local config files
+vim.o.secure = true -- Restrict dangerous commands in local configs
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -91,7 +93,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -219,6 +221,9 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 --Move selected block up/down in visual mode
 vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv")
+
+-- Visual block mode (Ctrl+V conflicts with terminal paste)
+vim.keymap.set('n', '<leader>v', '<C-v>', { desc = 'Visual block mode' })
 
 -- Automatically check for external changes on focus, buffer enter, or idle
 vim.o.autoread = true
@@ -827,6 +832,12 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'catppuccin/nvim',
+    as = 'catppuccin',
+    -- config = function() vim.cmd 'colorscheme catppuccin-latte' end,
+  },
+
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -872,7 +883,7 @@ require('lazy').setup({
     config = function()
       -- Use GCC from Scoop instead of cl.exe
       require('nvim-treesitter.install').compilers = { 'gcc' }
-      
+
       local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python' }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
@@ -896,7 +907,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
