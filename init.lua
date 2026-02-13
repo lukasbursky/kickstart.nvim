@@ -161,9 +161,6 @@ vim.o.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
--- Configure tree-sitter to use GCC (must be set before lazy loads)
-vim.env.CC = 'gcc'
-
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
@@ -879,17 +876,24 @@ require('lazy').setup({
 
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
     config = function()
-      -- Use GCC from Scoop instead of cl.exe
-      require('nvim-treesitter.install').compilers = { 'gcc' }
-
       local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python' }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
         callback = function() vim.treesitter.start() end,
       })
+    end,
+  },
+
+  {
+    'sindrets/diffview.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
+    config = function()
+      require('diffview').setup {
+        enhanced_diff_hl = true, -- better syntax highlighting in diffs
+        use_icons = true, -- show icons if you like
+      }
     end,
   },
 
