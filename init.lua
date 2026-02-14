@@ -834,7 +834,15 @@ require('lazy').setup({
     as = 'catppuccin',
     -- config = function() vim.cmd 'colorscheme catppuccin-latte' end,
   },
-
+  {
+    'chriskempson/base16-vim',
+  },
+  {
+    'idr4n/github-monochrome.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
