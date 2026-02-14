@@ -23,6 +23,7 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'mfussenegger/nvim-dap-python', -- Python debugger
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -81,6 +82,7 @@ return {
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'debugpy', -- Python debugger
       },
     }
 
@@ -130,5 +132,8 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    -- Install Python specific config
+    require('dap-python').setup('python') -- Uses python in PATH, or specify full path
   end,
 }

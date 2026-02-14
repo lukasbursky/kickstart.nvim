@@ -189,7 +189,7 @@ vim.diagnostic.config {
   jump = { float = true },
 }
 
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -436,6 +436,9 @@ require('lazy').setup({
 
           -- Find references for the word under your cursor.
           vim.keymap.set('n', 'grr', builtin.lsp_references, { buffer = buf, desc = '[G]oto [R]eferences' })
+
+          -- Populate quickfix list with references (uses native LSP, not Telescope)
+          vim.keymap.set('n', 'grq', vim.lsp.buf.references, { buffer = buf, desc = '[G]oto [Q]uickfix References' })
 
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
@@ -807,6 +810,9 @@ require('lazy').setup({
     },
   },
 
+  {
+    'chriskempson/base16-vim',
+  },
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
@@ -825,7 +831,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'base16-horizon-terminal-dark'
     end,
   },
 
@@ -833,9 +839,6 @@ require('lazy').setup({
     'catppuccin/nvim',
     as = 'catppuccin',
     -- config = function() vim.cmd 'colorscheme catppuccin-latte' end,
-  },
-  {
-    'chriskempson/base16-vim',
   },
   {
     'idr4n/github-monochrome.nvim',
@@ -873,9 +876,9 @@ require('lazy').setup({
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
+      -- cursor location to LINE:COLUMN with total lines and percentage
       ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function() return '%2l:%-2v' end
+      statusline.section_location = function() return '%2l:%-2v/%L %P' end
 
       -- ... and there is more!
       --  Check out: https://github.com/nvim-mini/mini.nvim
@@ -914,7 +917,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
@@ -926,6 +929,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   -- { import = 'custom.plugins' },
+  require 'custom.plugins.log-highlight',
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -952,7 +956,6 @@ require('lazy').setup({
     },
   },
 })
-
 require('custom.plugins.floating_terminal').setup()
 vim.keymap.set('n', '<leader>tt', '<cmd>Floaterminal<cr>', { desc = 'Toggle floating terminal' })
 vim.keymap.set({ 'n', 't' }, '<F12>', '<cmd>Floaterminal<cr>', { desc = 'Toggle floating terminal' })
