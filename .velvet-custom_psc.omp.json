@@ -16,29 +16,10 @@
           "options": {
             "time_format": "15:04:05"
           },
-          "trailing_diamond": "\ue0b4",
-          "template": " {{ .CurrentDate | date .Format }} ",
+          "template": "{{ .CurrentDate | date .Format }}",
           "foreground": "#EFDCF9",
           "background": "#0E050F",
           "type": "time",
-          "style": "diamond"
-        },
-        {
-          "options": {
-            "arch": "\uf303",
-            "debian": "\uf306",
-            "fedora": "\uf30a",
-            "linux": "\uf17c",
-            "macos": "\uf179",
-            "manjaro": "\uf312",
-            "opensuse": "\uf314",
-            "ubuntu": "\uf31b",
-            "windows": "\uf17a"
-          },
-          "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
-          "foreground": "#EFDCF9",
-          "background": "#0E050F",
-          "type": "os",
           "style": "diamond"
         },
         {
