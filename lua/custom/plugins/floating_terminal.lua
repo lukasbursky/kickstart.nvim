@@ -34,7 +34,7 @@ local function toggle_terminal()
 
     term_win = create_floating_window()
 
-    if vim.bo[term_buf].buftype ~= 'terminal' then vim.fn.termopen 'zsh' end
+    if vim.bo[term_buf].buftype ~= 'terminal' then vim.fn.termopen 'pwsh' end
 
     vim.cmd 'startinsert'
   end
