@@ -997,5 +997,7 @@ vim.keymap.set('n', '<leader>tt', '<cmd>Floaterminal<cr>', { desc = 'Toggle floa
 vim.keymap.set({ 'n', 't' }, '<F12>', '<cmd>Floaterminal<cr>', { desc = 'Toggle floating terminal' })
 
 vim.cmd 'highlight Normal guibg=NONE ctermbg=NONE'
+vim.cmd 'highlight NormalFloat guibg=NONE ctermbg=NONE'
+vim.cmd 'highlight FloatBorder guibg=NONE ctermbg=NONE'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
