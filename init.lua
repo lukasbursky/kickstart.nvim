@@ -106,7 +106,20 @@ vim.o.number = true
 --  Experiment for yourself to see if you like it!
 vim.o.relativenumber = true
 
-vim.opt.colorcolumn = '80'
+-- vim.opt.colorcolumn = '80'
+-- -- Clear colorcolumn by default
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "*",
+--   callback = function()
+--     vim.opt_local.colorcolumn = ""
+--   end
+-- })
+
+-- Set colorcolumn=80 only for sql and python
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'sql', 'python' },
+  callback = function() vim.opt_local.colorcolumn = '80' end,
+})
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
 
