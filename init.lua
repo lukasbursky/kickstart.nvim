@@ -1012,5 +1012,6 @@ vim.keymap.set({ 'n', 't' }, '<F12>', '<cmd>Floaterminal<cr>', { desc = 'Toggle 
 vim.cmd 'highlight Normal guibg=NONE ctermbg=NONE'
 vim.cmd 'highlight NormalFloat guibg=NONE ctermbg=NONE'
 vim.cmd 'highlight FloatBorder guibg=NONE ctermbg=NONE'
+vim.cmd 'set termguicolors'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
