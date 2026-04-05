@@ -826,42 +826,8 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
-
   {
     'chriskempson/base16-vim',
-  },
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'base16-outrun-dark'
-    end,
-  },
-
-  {
-    'catppuccin/nvim',
-    as = 'catppuccin',
-    -- config = function() vim.cmd 'colorscheme catppuccin-latte' end,
-  },
-  {
-    'idr4n/github-monochrome.nvim',
-    lazy = false,
-    priority = 1000,
-    opts = {},
   },
   {
     'nvimdev/dashboard-nvim',
@@ -919,9 +885,6 @@ require('lazy').setup({
             [[ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%XXXXXXXXXXXXX ]],
             [[ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%XXXXXXXXXXXXXXXXX ]],
             [[ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%XXXXXXXXXXXXXXXXXXXX ]],
-            [[ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%XXXXXXXXXXXXXXXXXXXXXXXXXX ]],
-
-            '',
             -- [[              _-o#&&*''''?d:>b\_               ]],
             -- [[          _o/"`''  '',, dMF9MMMMMHo_           ]],
             -- [[       .o&#'        `"MbHMMMMMMMMMMMHo.        ]],
@@ -945,7 +908,6 @@ require('lazy').setup({
             -- [[        `~,   .                     ./         ]],
             -- [[            . _                  .-            ]],
             -- [[              '`--._,dd###pp=""'               ]],
-
             -- [[                               _.._      ]],
             -- [[                             .'    '.    ]],
             -- [[                            (____/`\ \   ]],
@@ -1004,7 +966,7 @@ require('lazy').setup({
             -- [[                     \/ ____ \/ /                ]],
             -- [[                        \__ \__/                 ]],
             -- [[                        __/                      ]],
-            -- ' ',
+            ' ',
           },
           shortcut = {
             { desc = '󰊳 Update', group = '@property', action = 'Lazy update', key = 'u' },
@@ -1187,10 +1149,27 @@ require('lazy').setup({
 require('custom.plugins.floating_terminal').setup()
 vim.keymap.set('n', '<leader>tt', '<cmd>Floaterminal<cr>', { desc = 'Toggle floating terminal' })
 vim.keymap.set({ 'n', 't' }, '<F12>', '<cmd>Floaterminal<cr>', { desc = 'Toggle floating terminal' })
+-- in your init.lua
+local function get_system_theme()
+  local result = vim.fn.system 'gsettings get org.gnome.desktop.interface color-scheme'
+  return result:match 'prefer%-dark' and 'dark' or 'light'
+end
 
+local function apply_theme()
+  if get_system_theme() == 'dark' then
+    vim.o.background = 'dark'
+    vim.cmd.colorscheme 'base16-outrun-dark'
+  else
+    vim.o.background = 'light'
+    vim.cmd.colorscheme 'delek'
+  end
+end
+
+apply_theme() -- on startup
 vim.cmd 'highlight Normal guibg=NONE ctermbg=NONE'
 vim.cmd 'highlight NormalFloat guibg=NONE ctermbg=NONE'
 vim.cmd 'highlight FloatBorder guibg=NONE ctermbg=NONE'
 vim.cmd 'set termguicolors'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
